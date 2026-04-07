@@ -1,0 +1,93 @@
+
+
+user[icon:users,color:green]{
+  id serial PK
+  name varchar(20)
+  email varchar(322)
+  phone varchar(20)
+  password varchar(50)
+  role varchar(10) user trainer
+}
+
+trainer_profile[icon:user,color:green]{
+  trainer_id serial pk fk
+  experience varchar(50)
+  specialization varchar(50)
+}
+trainer_profile.trainer_id - user.id
+
+client_pofile[icon:user,color:green]{
+  client_id serial pk fk
+  age int
+  gender varchar(10)
+  height int
+  weight int
+}
+
+client_pofile.client_id - user.id
+
+
+
+subscription[icon:book-open,color:blue]{
+  subscription_id serial pk
+  trainer_id fk 
+  title varchar(100)
+  description text
+  price int
+  duration varchar(100)
+
+}
+subscription.trainer_id - trainer_profile.trainer_id
+
+
+
+purchases[icon:bookmark,color:blue]{
+  purchase_id serial pk
+  subscription_id fk
+  client_id fk
+  start_date date 
+  end_date date
+  status varchar(20) active, complete,canceld
+}
+
+subscription.subscription_id -purchases.subscription_id 
+purchases.client_id -client_pofile.client_id
+
+
+payment[icon:payment,color:pink]{
+  payment_id serial pk
+  client_id varchar(20) fk
+  subscription_id varchar(20) fk
+  amount int fk
+  craeetd_at date
+  payment_status varchar(10) success, pending,fail
+  payment_method vatchar(20) upi, bank_transfer
+}
+
+ client_pofile.client_id-payment.client_id
+ subscription.price - payment.amount
+subscription.subscription_id - payment.subscription_id
+
+attendance[icon:user-check,color:orange]{
+  attendance_id serial pk
+  user_id varchar(20) fk
+  date date
+  craeetd_at
+}
+user.id < attendance.user_id
+client_pofile < subscription
+
+progress[icon:progress,color:yellow]{
+  client_id varchar(20) fk
+  ckecking_date date fk
+  weight char(5)
+  chest char(5)
+  fat char(5)
+  bicipe char(5)
+}
+progress.client_id > client_pofile.client_id
+progress.ckecking_date - attendance.date
+
+
+
+
