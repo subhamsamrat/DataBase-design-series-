@@ -1,0 +1,69 @@
+
+patient[icon:user]{
+  patient_id serial pk
+  naem varchar(50)
+  age int
+  gender varchar(10) 
+  phone varchar(20)
+}
+
+doctor[icon:doctor]{
+  doctor_id serial pk
+  name varchar(50)
+  specialization varchar(50)
+  experiance varchar(20)
+}
+
+appointment[icon:book-open]{
+  appointment_id serial pk
+  patient_id fk
+  doctor_id fk
+  appointment_date date
+  status enum(Booked,canceled,complete)
+}
+patient.patient_id < appointment.patient_id
+
+doctor.doctor_id < appointment.doctor_id
+
+consultation[icon:gcp-operations]{
+  consultation_id serial pk
+  appointment_id fk
+  patient_id fk
+  doctor_id fk
+  visit_date  date
+  note text
+}
+  appointment.appointment_id-consultation.appointment_id
+  appointment.patient_id - consultation.patient_id
+appointment.doctor_id - consultation.doctor_id
+
+tests[icon:test-tube]{
+  test_id serial pk
+  patient_id fk
+  test_name varchar(30)
+  price int
+  status enum(pending,progres,complete)
+}
+consultation.patient_id < tests.patient_id
+
+report[icon:report]{
+  report_id serial pk
+  test_id fk
+  visit_date fk
+  result varchar(100)
+  file_url text
+}
+
+ report.test_id <> tests.test_id
+consultation.visit_date - report.visit_date
+
+payment[icon:payment]{
+  payment_id serial pk
+  consultation_id fk
+  amount int
+  payment_date date
+  payment_method enum(upi,cash,card)
+  status enum(pending,fail,success)
+}
+
+consultation.consultation_id - payment.consultation_id
