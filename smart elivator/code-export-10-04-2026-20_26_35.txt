@@ -1,0 +1,54 @@
+Building {
+  building_id : int
+  name : string
+  location : string
+}
+
+Floor {
+  floor_id : int
+  floor_number : int
+  building_id : int
+}
+
+Shaft {
+  shaft_id  fk
+  elevator_id  fk
+}
+Elevator.elevator_id < Shaft.elevator_id
+
+ Elevator {
+  elevator_id  int
+  shaft_id int
+  status enum(active,innactive)
+}
+
+ RideRequest {
+  request_id : int
+  source_floor_id : int
+  direction : string
+  request_time : datetime
+  elevator_id : int
+}
+
+ RideLog {
+  log_id : int
+  elevator_id : int
+  source_floor_id : int
+  destination_floor_id : int
+  start_time : datetime
+  end_time : datetime
+}
+
+ Maintenance {
+  maintenance_id : int
+  elevator_id : int
+  issue : string
+  status : string
+  date : datetime
+}
+
+Building < Floor
+Floor <Elevator 
+Elevator < RideRequest
+Elevator <> Maintenance
+RideRequest - RideLog
